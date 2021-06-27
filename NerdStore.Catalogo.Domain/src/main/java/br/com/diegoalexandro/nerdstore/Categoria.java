@@ -1,20 +1,25 @@
 package br.com.diegoalexandro.nerdstore;
 
-import br.com.nerdstore.domain_objects.Entity;
 import lombok.AccessLevel;
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+import java.util.UUID;
+
 @Getter
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
-public class Categoria extends Entity {
+@EqualsAndHashCode(of = "id")
+public class Categoria {
+
+    private UUID id;
 
     private int codigo;
 
     private String nome;
 
-    public Categoria(int codigo, String nome) {
-        super();
+    public Categoria(UUID id, int codigo, String nome) {
+        this.id = id;
         this.codigo = codigo;
         this.nome = nome;
     }
