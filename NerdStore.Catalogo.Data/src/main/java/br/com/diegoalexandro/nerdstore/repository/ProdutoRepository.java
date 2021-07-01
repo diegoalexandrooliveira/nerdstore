@@ -9,11 +9,17 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
 @Repository
 public interface ProdutoRepository extends IProdutoRepository, JpaRepository<ProdutoEntity, UUID> {
+
+    @Override
+    default Optional<Produto> procuraPorId(UUID id) {
+        return procuraPorIdQuery(id).map(ProdutoMapper.INSTANCE::produtoEntityToProduto);
+    }
 
     @Override
     default List<Produto> recuperaTodos() {
@@ -32,4 +38,7 @@ public interface ProdutoRepository extends IProdutoRepository, JpaRepository<Pro
 
     @Query("select p from ProdutoEntity p inner join fetch p.categoria order by p.id")
     List<ProdutoEntity> recuperaTodosQuery();
+
+    @Query("select p from ProdutoEntity p inner join fetch p.categoria where p.id = :id")
+    Optional<ProdutoEntity> procuraPorIdQuery(UUID id);
 }

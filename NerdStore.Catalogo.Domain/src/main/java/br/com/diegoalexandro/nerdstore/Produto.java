@@ -50,4 +50,16 @@ public class Produto implements IAggregateRoot {
         this.categoria = categoria;
         this.dimensoes = dimensoes;
     }
+
+    public void debitarEstoque(int quantidade) {
+        quantidadeEstoque = quantidadeEstoque - quantidade;
+        if (quantidadeEstoque < 0) {
+            quantidadeEstoque = quantidadeEstoque + quantidade;
+            throw new IllegalStateException("Produto não possui estoque suficiente.");
+        }
+    }
+
+    public void reporEstoque(int quantidade) {
+        quantidadeEstoque = quantidadeEstoque + quantidade;
+    }
 }
